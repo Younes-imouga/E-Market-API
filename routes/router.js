@@ -4,6 +4,7 @@ const userController = require("../controllers/userController");
 const validator = require("../controllers/middlewares/validationMiddleware");
 const {userSchema, productSchema} = require("../controllers/middlewares/schema");
 const productController = require("../controllers/productController");
+const categoryController = require("../controllers/CategoryController");
 
 
 router.get("/", (req, res) => {
@@ -23,6 +24,10 @@ router.post("/products", validator.validate(productSchema), productController.cr
 router.put("/products/:id", validator.validate(productSchema), productController.updateProduct);
 router.delete("/products/:id", productController.deleteProduct);
 
-
+// category routes
+router.get("/categories", categoryController.getCategories);
+router.get("/categories/:id", categoryController.getCategoryByID);
+router.post("/categories", categoryController.createCategory);
+router.delete("/categories/:id", categoryController.deleteCategory);
 
 module.exports = router;
