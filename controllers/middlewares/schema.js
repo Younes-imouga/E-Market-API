@@ -6,4 +6,12 @@ const userSchema = yup.object({
   password: yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
 });
 
-module.exports = {userSchema};
+const productSchema = yup.object({
+  title: yup.string().required('Title is required').min(3, 'Title must be at least 3 characters'),
+  desciption: yup.string().required('Description is required').min(8, 'Description must be at least 8 characters'),
+  price: yup.number("price must be a number").required('Price is required'),
+  stock: yup.number("stock must be a number").required('Stock is required'),
+  category: yup.string().required('Category is required'),
+});
+
+module.exports = {userSchema, productSchema};

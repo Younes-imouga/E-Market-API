@@ -2,13 +2,13 @@ const User = require('../models/User');
 
 class UserService {
 
-    async CreateUser(name, email, password, res) {
+    async CreateUser(fullname, email, password) {
         try {
           const user = new User(
             {
-                name: name,
-                email: email,
-                password: password
+              fullname: fullname,
+              email: email,
+              password: password
             }
           );
           await user.save();
@@ -20,11 +20,32 @@ class UserService {
 
     async getUsers() {
         try {
-            const users = await User.find();
+            const users = await User.find({ deleted: false });
             return users;
         } catch (error) {
             return false;
         }
+    }
+
+    async getUserById (id) {
+      try {
+        const user = await User.findById({ _id: id, deleted: false });
+        return user;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    async deleteUser (id) {
+      try {
+        const user = await User.findById(id);
+        user.deleted = true;
+        await user.save();
+        
+        return user;
+      } catch (error) {
+        return false;
+      }
     }
 }
 

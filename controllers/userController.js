@@ -1,4 +1,5 @@
 const userServices = require('../services/userServices');
+const mongoose = require('mongoose');
 
 class UserController {
 
@@ -14,7 +15,7 @@ class UserController {
         if (result) {
             res.status(200).json({ message: 'User created successfully' });
         } else {
-            res.status(500).json({ message: 'Error creating user' });
+            res.status(500).json({ message: result });
         }
     }
 
@@ -22,6 +23,36 @@ class UserController {
         const response = await userServices.getUsers();
         if (!response) {
             return res.status(500).json({ message: 'Error getting users' });
+        } else {
+            return res.status(200).json(response);
+        }
+    }
+
+    async getUserByID (req, res) {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
+
+        const response = await userServices.getUserById(id);
+        if (!response) {
+            return res.status(500).json({ message: 'Error getting user' });
+        } else {
+            return res.status(200).json(response);
+        }
+    }
+
+    async deleteUser (req, res) {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
+
+        const response = await userServices.deleteUser(id);
+        if (!response) {
+            return res.status(500).json({ message: 'Error deleting user' });
         } else {
             return res.status(200).json(response);
         }
