@@ -29,7 +29,7 @@ class UserService {
 
     async getUserById (id) {
       try {
-        const user = await User.findById({ _id: id, deleted: false });
+        const user = await User.findOne({ _id: id, deleted: false });
         return user;
       } catch (error) {
         return false;

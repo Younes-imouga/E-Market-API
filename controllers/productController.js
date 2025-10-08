@@ -7,7 +7,7 @@ class ProductController {
     async getProducts(req, res) {
         const response = await productServices.getProducts();
         if (!response) {
-            return res.status(500).json({ message: 'Error getting products' });
+            return res.status(500).json({ message: 'product not found' });
         } else {
             return res.status(200).json(response);
         }
@@ -22,7 +22,7 @@ class ProductController {
 
         const response = await productServices.getProductById(id);
         if (!response) {
-            return res.status(500).json({ message: 'Error getting product' });
+            return res.status(500).json({ message: 'product not found' });
         } else {
             return res.status(200).json(response);
         }
@@ -36,12 +36,12 @@ class ProductController {
             image = imageUrl;
         }
 
-        let result = await productServices.createProduct(title, description, number(price), number(stock), category, image);
+        let result = await productServices.createProduct(title, description, price, stock, category, image);
 
         if (result) {
             res.status(200).json({ message: 'Product created successfully' });
         } else {
-            res.status(500).json({ message: 'Error creating product' });
+            res.status(500).json({ message: 'Error creating product', error: result });
         }
     }
 
@@ -75,7 +75,7 @@ class ProductController {
         if (!response) {
             return res.status(500).json({ message: 'Error deleting product' });
         } else {
-            return res.status(200).json(response);
+            return res.status(200).json({message: 'Product deleted successfully', response});
         }
     }
 }

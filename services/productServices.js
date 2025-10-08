@@ -13,7 +13,7 @@ class ProductService {
 
     async getProductById(id) {
         try {
-            const product = await Product.findById({ _id: id, deleted: false });
+            const product = await Product.findOne({ _id: id, deleted: false });
             return product;
         } catch (error) {
             return false;
@@ -40,6 +40,9 @@ class ProductService {
     async updateProduct(id, title, description, price, stock, category, imageUrl) {
         try {
             const product = await Product.findById(id);
+
+            if (!product) return false;
+
             product.title = title;
             product.description = description;
             product.price = price;
@@ -47,6 +50,7 @@ class ProductService {
             product.category = category;
             product.imageUrl = imageUrl;
             await product.save();
+            
             return true;
         } catch (error) {
             return false;
