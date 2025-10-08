@@ -6,8 +6,10 @@ class UserController {
     async createUser(req, res) {
         const { fullname, email, password } = req.body;
 
-        if (!fullname || !email || !password) {
-            return res.status(400).json({ message: 'Missing required fields' });
+        let emailExist = await userServices.getUserByEmail(email);
+
+        if (emailExist) {
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         let result = await userServices.CreateUser(fullname, email, password, res);

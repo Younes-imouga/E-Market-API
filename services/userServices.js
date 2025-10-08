@@ -36,6 +36,15 @@ class UserService {
       }
     }
 
+    async getUserByEmail (email) {
+      try {
+        const user = await User.findOne({ email: email, deleted: false });
+        return user;
+      } catch (error) {
+        return false;
+      }
+    }
+
     async deleteUser (id) {
       try {
         const user = await User.findById(id);

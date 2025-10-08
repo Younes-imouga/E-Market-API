@@ -91,6 +91,26 @@ class ProductController {
             return res.status(200).json({message: 'Product deleted successfully', response});
         }
     }
+
+    async searchProducts(req, res) {
+        let {column, value} = req.params;
+
+        if(column == 'category') {
+            const category = await categoryServices.getCategoryByName(value);
+            // if (!category) {
+            //     return res.status(500).json({ message: 'Category Not Found' });
+            // }
+            value = category ? category._id : value;
+        }
+
+        const response = await productServices.SearchProduct(column, value);
+        if (!response) {
+            return res.status(500).json({ message: 'Product Not Found' });
+        } else {
+            return res.status(200).json(response);
+        }
+        
+    }
 }
 
 module.exports = new ProductController();

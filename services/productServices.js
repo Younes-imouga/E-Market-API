@@ -67,6 +67,16 @@ class ProductService {
             return false;
         }
     }
+
+    async SearchProduct(column, value) {
+        
+        try {
+            const product = await Product.find({ [column]: value, deleted: false });
+            return product;
+        } catch (error) {
+            return false;
+        }
+    }
 }
 
 module.exports = new ProductService();

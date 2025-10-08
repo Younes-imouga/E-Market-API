@@ -42,6 +42,15 @@ class CategoryService {
       return false;
     }
   }
+
+  async getCategoryByName(name) {
+    try {
+      const category = await Category.findOne({ name: name, deleted: false });
+      return category;
+    } catch (error) {
+      return false;
+    }
+  }
 }
 
 module.exports = new CategoryService();
