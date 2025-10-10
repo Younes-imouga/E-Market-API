@@ -3,6 +3,112 @@ const mongoose = require('mongoose');
 
 class CategoryController {
 
+    /**
+     * @swagger
+     * tags:
+     *   name: Categories
+     *   description: API for managing categories
+     */
+
+    /**
+     * @swagger
+     * /categories:
+     *   get:
+     *     summary: Get all categories
+     *     tags: [Categories]
+     *     responses:
+     *       200:
+     *         description: List of all categories
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   _id:
+     *                     type: string
+     *                     description: Category ID
+     *                   name:
+     *                     type: string
+     *                     description: Category name
+     *                   createdAt:
+     *                     type: string
+     *                     format: date-time
+     *                     description: Category creation date
+     *                   deleted:
+     *                     type: boolean
+     *                     description: Category deletion status
+     *       500:
+     *         description: Server error
+     *   post:
+     *     summary: Create a new category
+     *     tags: [Categories]
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             properties:
+     *               name:
+     *                 type: string
+     *                 description: Category name
+     *     responses:
+     *       200:
+     *         description: Category created successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 message:
+     *                   type: string
+     *                   description: Success message
+     *       400:
+     *         description: Missing required fields
+     *       500:
+     *         description: Server error
+     *
+     *   /categories/{id}:
+     *     get:
+     *       summary: Get a category by ID
+     *       tags: [Categories]
+     *       parameters:
+     *         - in: path
+     *           name: id
+     *           required: true
+     *           schema:
+     *             type: string
+     *           description: Category ID
+     *       responses:
+     *         200:
+     *           description: Category found
+     *           content:
+     *             application/json:
+     *               schema:
+     *                 $ref: '#/components/schemas/Category'
+     *         404:
+     *           description: Category not found
+     *   delete:
+     *     summary: Delete a category by ID
+     *     tags: [Categories]
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         schema:
+     *           type: string
+     *         description: Category ID
+     *     responses:
+     *       200:
+     *         description: Category deleted successfully
+     *       404:
+     *         description: Category not found
+     *       500:
+     *         description: Server error
+     */
+
     async getCategories(req, res) {
         const response = await categoryServices.getCategories();
         if (!response) {
